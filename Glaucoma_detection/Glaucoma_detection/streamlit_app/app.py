@@ -53,13 +53,21 @@ def load_model():
 def get_model_input_size(model):
     """Get the input size expected by the model"""
     try:
-        input_shape = model.input_shape[0]
-        if input_shape and len(input_shape) >= 2:
-            return (int(input_shape[1]), int(input_shape[2]))
-    except Exception:
-        pass
+        # Try multiple ways to get input shape
+        if hasattr(model, 'inputs') and model.inputs:
+            input_shape = model.inputs[0].shape
+            if input_shape and len(input_shape) >= 4:
+                return (int(input_shape[1]), int(input_shape[2]))
+        elif hasattr(model, 'input_shape') and model.input_shape:
+            input_shape = model.input_shape
+            if isinstance(input_shape, (list, tuple)) and len(input_shape) > 0:
+                shape = input_shape[0] if isinstance(input_shape[0], (list, tuple)) else input_shape
+                if len(shape) >= 3:
+                    return (int(shape[1]), int(shape[2]))
+    except Exception as e:
+        print(f"Warning: Could not detect model input size: {e}")
     # Default fallback
-    return (224, 224)
+    return (256, 256)
 
 
 def predict_image(model, image):

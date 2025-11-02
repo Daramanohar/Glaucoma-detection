@@ -41,7 +41,7 @@ def load_model():
     """Load the trained model (cached)"""
     if MODEL_PATH.exists():
         try:
-            model = tf.keras.models.load_model(str(MODEL_PATH))
+            model = tf.keras.models.load_model(str(MODEL_PATH), compile=False)
             return model, None
         except Exception as e:
             return None, str(e)
@@ -49,10 +49,25 @@ def load_model():
         return None, "Model file not found. Please train the model first."
 
 
+def get_model_input_size(model):
+    """Get the input size expected by the model"""
+    try:
+        input_shape = model.input_shape[0]
+        if input_shape and len(input_shape) >= 2:
+            return (int(input_shape[1]), int(input_shape[2]))
+    except Exception:
+        pass
+    # Default fallback
+    return (224, 224)
+
+
 def predict_image(model, image):
     """Predict glaucoma probability for an image"""
+    # Get model input size
+    img_size = get_model_input_size(model)
+    
     # Preprocess
-    img_array = np.array(image.resize((224, 224))) / 255.0
+    img_array = np.array(image.resize(img_size)) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
     
     # Predict
@@ -65,6 +80,9 @@ def predict_image(model, image):
 def display_gradcam(model, image, temp_path):
     """Generate and display Grad-CAM visualization"""
     try:
+        # Get model input size
+        img_size = get_model_input_size(model)
+        
         # Save image temporarily
         image.save(temp_path)
         
@@ -72,7 +90,7 @@ def display_gradcam(model, image, temp_path):
         gradcam = GradCAM(model)
         
         # Generate visualization
-        img_array, _ = preprocess_image(str(temp_path), target_size=(224, 224))
+        img_array, _ = preprocess_image(str(temp_path), target_size=img_size)
         heatmap = gradcam.make_gradcam_heatmap(img_array)
         
         # Overlay

@@ -1,0 +1,43 @@
+================================================================================
+                    QUICK TEST CHECKLIST
+================================================================================
+
+□ Launch: python -m streamlit run streamlit_app\app.py
+
+□ Browser opens at: http://localhost:8501
+
+□ Check sidebar:
+  □ Model loaded ✓
+  □ RAG system ready ✓
+  □ Ollama + Mistral ready ✓
+
+□ Upload image from test set:
+  □ Glaucoma image: r1_Im069.png
+  □ Normal image: r1_Im001.png
+
+□ Click "🔍 Predict"
+
+□ Wait for results (~3-5 seconds)
+
+□ Verify prediction appears (Glaucoma/Normal)
+
+□ Toggle Grad-CAM visualization ON
+
+□ See heatmap overlay
+
+□ Check "Generate detailed information with AI"
+
+□ See Mistral-7B description
+
+□ Expand "View Source Information"
+
+□ See RAG documents
+
+□ Download report
+
+□ Test another image
+
+================================================================================
+                        ALL WORKING? ✓✓✓
+================================================================================
+

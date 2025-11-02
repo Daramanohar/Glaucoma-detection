@@ -1,0 +1,213 @@
+[
+  {
+    "chunk_id": "e2d41ac9-8576-4440-9278-8ac8e779e170",
+    "parent_doc_id": "GLAUCOMA-001",
+    "category": "glaucoma",
+    "title": "What is Glaucoma?",
+    "section": "general_info",
+    "condition_stage": "suspected",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "glaucoma",
+      "eye disease",
+      "optic nerve",
+      "vision loss"
+    ],
+    "safety_tags": [
+      "educational",
+      "non-diagnostic"
+    ],
+    "source": "AAO Clinical Guidelines",
+    "url": "https://www.aao.org/eye-health/diseases/what-is-glaucoma",
+    "last_reviewed": "2025-11-02T07:16:53.183588",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "adaa2605-cc3c-4f22-af7d-1da292f11792",
+    "parent_doc_id": "GLAUCOMA-002",
+    "category": "glaucoma",
+    "title": "Understanding Elevated Eye Pressure",
+    "section": "causes",
+    "condition_stage": "early",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "eye pressure",
+      "IOP",
+      "intraocular pressure",
+      "drainage",
+      "aqueous humor"
+    ],
+    "safety_tags": [
+      "educational"
+    ],
+    "source": "NIH Glaucoma Research",
+    "url": "https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/glaucoma",
+    "last_reviewed": "2025-11-02T07:16:53.184004",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "e7236688-8cf4-489a-8e84-62699eb4ec73",
+    "parent_doc_id": "GLAUCOMA-003",
+    "category": "glaucoma",
+    "title": "Consequences of Untreated Glaucoma",
+    "section": "consequences",
+    "condition_stage": "moderate",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "vision loss",
+      "blindness",
+      "peripheral vision",
+      "tunnel vision",
+      "irreversible"
+    ],
+    "safety_tags": [
+      "urgent_awareness"
+    ],
+    "source": "Prevent Blindness Foundation",
+    "url": "https://preventblindness.org/glaucoma/",
+    "last_reviewed": "2025-11-02T07:16:53.184483",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "301790eb-186f-429b-8621-1af34d7de9f2",
+    "parent_doc_id": "GLAUCOMA-004",
+    "category": "glaucoma",
+    "title": "Treatment Options for Glaucoma",
+    "section": "improvements",
+    "condition_stage": "early",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "treatment",
+      "eye drops",
+      "laser surgery",
+      "trabeculectomy",
+      "medications"
+    ],
+    "safety_tags": [
+      "treatment_guidance"
+    ],
+    "source": "American Glaucoma Society",
+    "url": "https://www.americanglaucomasociety.net/",
+    "last_reviewed": "2025-11-02T07:16:53.185026",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "65428ec0-ef96-4f29-bd41-4f1fb929ee38",
+    "parent_doc_id": "GLAUCOMA-005",
+    "category": "glaucoma",
+    "title": "Lifestyle Modifications and Self-Care",
+    "section": "improvements",
+    "condition_stage": "early",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "lifestyle",
+      "exercise",
+      "diet",
+      "stress management",
+      "eye care"
+    ],
+    "safety_tags": [
+      "lifestyle_guidance"
+    ],
+    "source": "Glaucoma Research Foundation",
+    "url": "https://glaucoma.org/",
+    "last_reviewed": "2025-11-02T07:16:53.185551",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "88f57763-d97c-4dd4-9d12-913cdcef3783",
+    "parent_doc_id": "GLAUCOMA-006",
+    "category": "glaucoma",
+    "title": "Understanding Uncertainty in Glaucoma Diagnosis",
+    "section": "uncertainty",
+    "condition_stage": "suspected",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "uncertainty",
+      "false positive",
+      "false negative",
+      "AI limitations",
+      "clinical evaluation"
+    ],
+    "safety_tags": [
+      "important_disclaimer",
+      "non_diagnostic"
+    ],
+    "source": "Ethical AI in Ophthalmology",
+    "url": "",
+    "last_reviewed": "2025-11-02T07:16:53.186045",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "32a42512-355f-4ab5-bd71-44895bc241ab",
+    "parent_doc_id": "GLAUCOMA-007",
+    "category": "glaucoma",
+    "title": "Interpretation of Fundus Images and Grad-CAM Findings",
+    "section": "clinical_interpretation",
+    "condition_stage": "suspected",
+    "audience": "clinician",
+    "locale": "en",
+    "reading_level": "advanced",
+    "keywords": [
+      "optic disc",
+      "cup-to-disc ratio",
+      "rim thinning",
+      "RNFL",
+      "nerve fiber layer",
+      "excavation"
+    ],
+    "safety_tags": [
+      "clinical_reference"
+    ],
+    "source": "Ophthalmology Atlas & AI Research",
+    "url": "",
+    "last_reviewed": "2025-11-02T07:16:53.186599",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "eb76d181-c676-4ca6-880e-7453630e7a7f",
+    "parent_doc_id": "GLAUCOMA-008",
+    "category": "glaucoma",
+    "title": "Emergency Red Flags and When to Seek Immediate Care",
+    "section": "consequences",
+    "condition_stage": "advanced",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "emergency",
+      "red flags",
+      "sudden vision loss",
+      "severe pain",
+      "urgent care"
+    ],
+    "safety_tags": [
+      "urgent_awareness",
+      "emergency_guidance"
+    ],
+    "source": "Emergency Ophthalmology Guidelines",
+    "url": "",
+    "last_reviewed": "2025-11-02T07:16:53.187029",
+    "chunk_index": 0,
+    "total_chunks": 1
+  }
+]

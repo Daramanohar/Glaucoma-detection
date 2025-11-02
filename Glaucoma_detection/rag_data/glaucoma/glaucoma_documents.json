@@ -1,0 +1,181 @@
+[
+  {
+    "id": "GLAUCOMA-001",
+    "title": "What is Glaucoma?",
+    "section": "general_info",
+    "condition_stage": "suspected",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "glaucoma",
+      "eye disease",
+      "optic nerve",
+      "vision loss"
+    ],
+    "safety_tags": [
+      "educational",
+      "non-diagnostic"
+    ],
+    "source": "AAO Clinical Guidelines",
+    "url": "https://www.aao.org/eye-health/diseases/what-is-glaucoma",
+    "content": "\nGlaucoma is a group of eye diseases that damage the optic nerve, which connects your eye to your brain. This damage is usually caused by abnormally high pressure inside your eye (intraocular pressure or IOP).\n\nThere are several types of glaucoma:\n\n1. **Primary Open-Angle Glaucoma (POAG)**: The most common form, accounting for 90% of all glaucoma cases. It develops slowly when the eye's drainage canals become clogged over time, causing increased pressure.\n\n2. **Angle-Closure Glaucoma**: Less common but more severe. Occurs when the iris blocks the drainage angle, causing sudden pressure increase.\n\n3. **Normal-Tension Glaucoma**: The optic nerve becomes damaged despite normal eye pressure.\n\n4. **Secondary Glaucoma**: Caused by other eye conditions, injuries, or medications.\n\n**Risk Factors**:\n- Age over 60\n- Family history of glaucoma\n- High eye pressure (IOP > 21 mmHg)\n- African, Asian, or Hispanic descent\n- High myopia (severe nearsightedness)\n- Diabetes\n- Prolonged use of corticosteroids\n\nEarly detection is crucial because vision loss from glaucoma is irreversible. Regular eye exams are essential, especially after age 40.\n"
+  },
+  {
+    "id": "GLAUCOMA-002",
+    "title": "Understanding Elevated Eye Pressure",
+    "section": "causes",
+    "condition_stage": "early",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "eye pressure",
+      "IOP",
+      "intraocular pressure",
+      "drainage",
+      "aqueous humor"
+    ],
+    "safety_tags": [
+      "educational"
+    ],
+    "source": "NIH Glaucoma Research",
+    "url": "https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/glaucoma",
+    "content": "\n**Causes of Elevated Eye Pressure**:\n\nYour eye continuously produces a clear fluid called aqueous humor. For healthy vision, this fluid must drain properly. When drainage is blocked or production is excessive, pressure builds up inside the eye.\n\n**Factors Leading to High IOP**:\n- Blocked or slow drainage canals (most common)\n- Overproduction of aqueous humor (rare)\n- Eye injuries or trauma\n- Inflammation (uveitis)\n- Certain medications (especially steroid eye drops)\n- Genetic predisposition\n- Blood vessel abnormalities\n\n**Normal Eye Pressure**: 10-21 mmHg\n**Elevated**: 22-29 mmHg (monitoring required)\n**High**: 30+ mmHg (prompt treatment recommended)\n\nIt's important to note that not everyone with high eye pressure develops glaucoma, and some people develop damage even with normal pressure. Regular monitoring by an ophthalmologist is essential.\n"
+  },
+  {
+    "id": "GLAUCOMA-003",
+    "title": "Consequences of Untreated Glaucoma",
+    "section": "consequences",
+    "condition_stage": "moderate",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "vision loss",
+      "blindness",
+      "peripheral vision",
+      "tunnel vision",
+      "irreversible"
+    ],
+    "safety_tags": [
+      "urgent_awareness"
+    ],
+    "source": "Prevent Blindness Foundation",
+    "url": "https://preventblindness.org/glaucoma/",
+    "content": "\n**Consequences of Untreated Glaucoma**:\n\nGlaucoma is the second leading cause of blindness worldwide. Without treatment, it causes progressive, irreversible vision loss.\n\n**Progression Timeline**:\n1. **Early Stage**: Usually asymptomatic. Peripheral (side) vision begins to deteriorate. Most people don't notice until 40-50% of vision is lost.\n\n2. **Moderate Stage**: Noticeable blind spots in peripheral vision. Difficulty with activities like driving at night, reading, or navigating in low light.\n\n3. **Advanced Stage**: \"Tunnel vision\" - only central vision remains. Severe impact on daily activities.\n\n4. **Blindness**: Complete loss of vision in affected eye(s).\n\n**Impact on Daily Life**:\n- Driving restrictions or inability to drive\n- Increased risk of falls and accidents\n- Difficulty with reading and computer work\n- Social isolation due to vision limitations\n- Loss of independence\n\n**Early treatment can slow or halt progression**. Once vision is lost, it cannot be restored. This is why regular eye exams are critical, especially after age 40 or if you have risk factors.\n"
+  },
+  {
+    "id": "GLAUCOMA-004",
+    "title": "Treatment Options for Glaucoma",
+    "section": "improvements",
+    "condition_stage": "early",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "treatment",
+      "eye drops",
+      "laser surgery",
+      "trabeculectomy",
+      "medications"
+    ],
+    "safety_tags": [
+      "treatment_guidance"
+    ],
+    "source": "American Glaucoma Society",
+    "url": "https://www.americanglaucomasociety.net/",
+    "content": "\n**Treatment Options for Glaucoma**:\n\nTreatment aims to lower intraocular pressure (IOP) to prevent further optic nerve damage. Options include:\n\n**1. Eye Drops (First-line treatment)**:\n- **Prostaglandin analogs** (Latanoprost, Bimatoprost): Increase drainage. Side effects: eye redness, darkening of iris.\n- **Beta-blockers** (Timolol): Reduce fluid production. Side effects: slowed heart rate, breathing issues in asthmatics.\n- **Alpha agonists** (Brimonidine): Reduce production and increase drainage.\n- **Carbonic anhydrase inhibitors** (Dorzolamide): Reduce fluid production.\n- **Rho kinase inhibitors** (Netarsudil): New class, improves drainage.\n\n**2. Laser Therapy**:\n- **Selective Laser Trabeculoplasty (SLT)**: Opens drainage channels. 80% success rate, can be repeated.\n- **Argon Laser Trabeculoplasty (ALT)**: Older technique, less preferred.\n- **Laser Iridotomy**: For angle-closure glaucoma.\n\n**3. Surgery (When medications and laser fail)**:\n- **Trabeculectomy**: Creates new drainage channel.\n- **Minimally Invasive Glaucoma Surgery (MIGS)**: Less invasive options.\n- **Drainage implants**: Artificial devices to facilitate drainage.\n\n**Important**: Treatment is lifelong. Skipping medications can lead to permanent vision loss.\n"
+  },
+  {
+    "id": "GLAUCOMA-005",
+    "title": "Lifestyle Modifications and Self-Care",
+    "section": "improvements",
+    "condition_stage": "early",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "lifestyle",
+      "exercise",
+      "diet",
+      "stress management",
+      "eye care"
+    ],
+    "safety_tags": [
+      "lifestyle_guidance"
+    ],
+    "source": "Glaucoma Research Foundation",
+    "url": "https://glaucoma.org/",
+    "content": "\n**Lifestyle Modifications and Self-Care for Glaucoma**:\n\nWhile glaucoma requires medical treatment, lifestyle changes can support your eye health:\n\n**1. Exercise**: Regular aerobic exercise (walking, jogging, cycling) can help lower IOP by 20-25%. Aim for 30-40 minutes, 3-4 times per week. Avoid head-down positions (yoga inversions) as they can increase pressure.\n\n**2. Diet**: \n- Eat green leafy vegetables (spinach, kale): Rich in antioxidants.\n- Include fish high in omega-3 (salmon, tuna).\n- Limit caffeine: Can temporarily raise eye pressure.\n- Stay hydrated: Drink water throughout the day.\n\n**3. Stress Management**: Chronic stress can elevate eye pressure. Practice meditation, deep breathing, or gentle yoga.\n\n**4. Eye Protection**: Wear sunglasses outdoors, safety glasses when working with tools, and eye protection during sports.\n\n**5. Sleep Position**: Elevate your head with a wedge pillow if you have advanced glaucoma. Avoid sleeping face-down.\n\n**6. Medication Adherence**: Take eye drops exactly as prescribed. Use a timer or medication app. Missing doses can lead to vision loss.\n\n**7. Regular Monitoring**: Keep all scheduled eye appointments. Bring a list of all medications you're taking.\n"
+  },
+  {
+    "id": "GLAUCOMA-006",
+    "title": "Understanding Uncertainty in Glaucoma Diagnosis",
+    "section": "uncertainty",
+    "condition_stage": "suspected",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "uncertainty",
+      "false positive",
+      "false negative",
+      "AI limitations",
+      "clinical evaluation"
+    ],
+    "safety_tags": [
+      "important_disclaimer",
+      "non_diagnostic"
+    ],
+    "source": "Ethical AI in Ophthalmology",
+    "url": "",
+    "content": "\n**Understanding Uncertainty in Glaucoma Assessment**:\n\nAI-powered tools like this application are designed for **screening and research purposes only**. They have limitations that you should understand:\n\n**1. False Positives**: AI may flag healthy eyes as suspicious. This doesn't mean you have glaucoma - it means further clinical evaluation is recommended.\n\n**2. False Negatives**: AI may miss early glaucoma in some cases. Always maintain regular eye exams with your ophthalmologist regardless of AI results.\n\n**3. Model Limitations**:\n- Trained on specific datasets (RIM-ONE DL)\n- May not generalize to all populations\n- Cannot assess IOP, visual fields, or OCT data\n- Cannot diagnose angle-closure or secondary glaucomas effectively\n\n**4. Grad-CAM Visualizations**: Heatmaps show regions the AI focused on, but should be interpreted by a clinician alongside comprehensive eye exams.\n\n**5. What to Do**:\n- **If AI suggests glaucoma risk**: Schedule a comprehensive eye exam with an ophthalmologist. Bring this report.\n- **If AI suggests normal**: Continue regular eye exams (annually if over 40 or with risk factors).\n- Never make treatment decisions based solely on AI results.\n\n**Remember**: This tool is for awareness and education only. Professional medical evaluation is essential for accurate diagnosis and treatment.\n"
+  },
+  {
+    "id": "GLAUCOMA-007",
+    "title": "Interpretation of Fundus Images and Grad-CAM Findings",
+    "section": "clinical_interpretation",
+    "condition_stage": "suspected",
+    "audience": "clinician",
+    "locale": "en",
+    "reading_level": "advanced",
+    "keywords": [
+      "optic disc",
+      "cup-to-disc ratio",
+      "rim thinning",
+      "RNFL",
+      "nerve fiber layer",
+      "excavation"
+    ],
+    "safety_tags": [
+      "clinical_reference"
+    ],
+    "source": "Ophthalmology Atlas & AI Research",
+    "url": "",
+    "content": "\n**Interpretation of Fundus Images and Grad-CAM Findings**:\n\nWhen analyzing fundus photographs for glaucoma, clinicians look for several key signs. AI models trained on ResNet50 typically focus on similar regions:\n\n**1. Optic Disc Changes**:\n- Increased cup-to-disc (C/D) ratio: >0.6 is suspicious, >0.8 is highly suggestive\n- Vertical elongation of the cup (more specific than horizontal)\n- Asymmetric C/D ratios between eyes (>0.2 difference is concerning)\n- Violation of ISNT rule: Inferior, Superior, Nasal, Temporal rim thinning\n\n**2. Retinal Nerve Fiber Layer (RNFL) Defects**:\n- Inferior or superior arcuate defects most common\n- Diffuse or localized thinning\n- Notch defects suggesting focal damage\n\n**3. Vessel Changes**:\n- Baring of circumlinear vessels\n- Nasalization of central retinal artery\n- Bayoneting (vessel angulation at disc margin)\n\n**Grad-CAM Overlays**:\n- Red/hot regions indicate areas the AI weighted most heavily\n- Typical focus areas: optic disc center, neuroretinal rim, peripapillary region\n- Inferior and superior poles often highlighted in glaucomatous eyes\n- Parapapillary atrophy regions may also be emphasized\n\n**Important**: AI predictions should supplement, not replace, comprehensive evaluation including:\n- Gonioscopy\n- IOP measurement\n- Pachymetry\n- Visual field testing (perimetry)\n- OCT of optic nerve head and RNFL\n- Review of family history and medications\n"
+  },
+  {
+    "id": "GLAUCOMA-008",
+    "title": "Emergency Red Flags and When to Seek Immediate Care",
+    "section": "consequences",
+    "condition_stage": "advanced",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "emergency",
+      "red flags",
+      "sudden vision loss",
+      "severe pain",
+      "urgent care"
+    ],
+    "safety_tags": [
+      "urgent_awareness",
+      "emergency_guidance"
+    ],
+    "source": "Emergency Ophthalmology Guidelines",
+    "url": "",
+    "content": "\n**Emergency Red Flags - When to Seek Immediate Care**:\n\nSome glaucoma symptoms require **immediate medical attention**:\n\n**SEEK EMERGENCY CARE IF YOU EXPERIENCE**:\n1. **Sudden, severe eye pain** (especially with headache)\n2. **Sudden vision loss or blindness** in one or both eyes\n3. **Seeing halos** around lights\n4. **Severe eye redness** \n5. **Nausea or vomiting** with eye pain\n6. **Rainbow-colored halos** around lights\n\n**These may indicate**:\n- Acute angle-closure glaucoma (medical emergency)\n- Retinal detachment\n- Anterior ischemic optic neuropathy (AION)\n- Stroke affecting vision\n\n**Call 911 or go to emergency room immediately** - delays can result in permanent blindness.\n\n**Also call your eye doctor promptly if**:\n- Eye drops cause significant irritation or allergic reactions\n- Vision suddenly becomes blurry\n- Sudden increase in eye pain despite treatment\n- Significant changes in peripheral vision\n\n**Remember**: In acute glaucoma emergencies, every hour counts. Don't wait until morning or for an appointment.\n"
+  }
+]

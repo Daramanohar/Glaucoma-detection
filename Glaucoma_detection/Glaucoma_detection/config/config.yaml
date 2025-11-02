@@ -1,0 +1,87 @@
+# Configuration file for Glaucoma Detection Pipeline
+
+# Random seed for reproducibility
+seed: 42
+
+# Data processing
+data:
+  image_size: [224, 224]
+  batch_size: 32
+  validation_split: 0.15
+  augmentations_per_image: 2
+
+# Model architecture
+model:
+  base_model: "ResNet50"
+  pretrained_weights: "imagenet"
+  head_layers:
+    - units: 512
+      activation: "relu"
+      dropout: 0.5
+      batch_norm: true
+    - units: 128
+      activation: "relu"
+      dropout: 0.3
+      batch_norm: true
+
+# Training hyperparameters
+training:
+  phase_a:
+    epochs: 10
+    learning_rate: 1e-4
+    base_trainable: false
+  
+  phase_b:
+    epochs: 20
+    learning_rate: 1e-5
+    unfreeze_layers: 50
+  
+  optimizer: "adam"
+  loss: "binary_crossentropy"
+  metrics: ["accuracy", "auc"]
+  weight_decay: 1e-4
+  
+  callbacks:
+    early_stopping:
+      patience: 6
+      monitor: "val_accuracy"
+      restore_best_weights: true
+    
+    reduce_lr:
+      factor: 0.5
+      patience: 3
+      min_lr: 1e-7
+      monitor: "val_loss"
+    
+    checkpoint:
+      monitor: "val_accuracy"
+      mode: "max"
+      save_best_only: true
+
+# Evaluation
+evaluation:
+  threshold: 0.5
+  metrics: ["accuracy", "precision", "recall", "f1", "roc_auc"]
+
+# Grad-CAM
+gradcam:
+  layer_name: null  # Auto-detect if null
+  samples_per_category: 10
+  colormap: "jet"
+  alpha: 0.4
+
+# Paths
+paths:
+  raw_data: "RIM-ONE_DL_images"
+  processed_data: "processed_data"
+  models: "models"
+  results: "results"
+  logs: "logs"
+  streamlit_app: "streamlit_app"
+
+# Mixed precision
+mixed_precision: true
+
+# Device
+device: "gpu"  # or "cpu"
+

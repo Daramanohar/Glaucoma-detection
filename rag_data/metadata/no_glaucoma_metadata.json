@@ -1,0 +1,128 @@
+[
+  {
+    "chunk_id": "57233222-115b-4c54-bc9b-be253fa97d02",
+    "parent_doc_id": "NORMAL-001",
+    "category": "no_glaucoma",
+    "title": "Healthy Eye Anatomy and Normal Vision",
+    "section": "general_info",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "healthy eyes",
+      "normal vision",
+      "optic nerve",
+      "prevention"
+    ],
+    "safety_tags": [
+      "educational"
+    ],
+    "source": "American Optometric Association",
+    "url": "https://www.aoa.org/",
+    "last_reviewed": "2025-11-02T14:45:21.025333",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "67d0ba91-7826-4913-88ca-3b6c0e05de25",
+    "parent_doc_id": "NORMAL-002",
+    "category": "no_glaucoma",
+    "title": "Maintaining Eye Health - Prevention Strategies",
+    "section": "improvements",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "prevention",
+      "eye health",
+      "nutrition",
+      "lifestyle",
+      "screening"
+    ],
+    "safety_tags": [
+      "preventive_guidance"
+    ],
+    "source": "National Eye Institute",
+    "url": "https://www.nei.nih.gov/",
+    "last_reviewed": "2025-11-02T14:45:21.025333",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "4bd81824-171d-4690-bbb7-21d4a2b7f5de",
+    "parent_doc_id": "NORMAL-003",
+    "category": "no_glaucoma",
+    "title": "Understanding Normal vs. High Risk Features",
+    "section": "uncertainty",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "risk factors",
+      "screening",
+      "monitoring",
+      "normal variants"
+    ],
+    "safety_tags": [
+      "educational"
+    ],
+    "source": "Clinical Screening Guidelines",
+    "url": "",
+    "last_reviewed": "2025-11-02T14:45:21.026048",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "a9fe1816-50d8-4835-8c09-63236d220212",
+    "parent_doc_id": "NORMAL-004",
+    "category": "no_glaucoma",
+    "title": "When Normal Results Still Require Attention",
+    "section": "uncertainty",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "uncertainty",
+      "false negative",
+      "monitoring",
+      "preventive care"
+    ],
+    "safety_tags": [
+      "important_disclaimer"
+    ],
+    "source": "Clinical Decision Support",
+    "url": "",
+    "last_reviewed": "2025-11-02T14:45:21.026048",
+    "chunk_index": 0,
+    "total_chunks": 1
+  },
+  {
+    "chunk_id": "8ddd2113-f614-4036-af82-682599094953",
+    "parent_doc_id": "NORMAL-005",
+    "category": "no_glaucoma",
+    "title": "Age-Related Changes vs. Disease",
+    "section": "uncertainty",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "aging",
+      "presbyopia",
+      "normal changes",
+      "prevention"
+    ],
+    "safety_tags": [
+      "educational"
+    ],
+    "source": "Geriatric Ophthalmology",
+    "url": "",
+    "last_reviewed": "2025-11-02T14:45:21.026048",
+    "chunk_index": 0,
+    "total_chunks": 1
+  }
+]

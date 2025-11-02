@@ -1,0 +1,108 @@
+[
+  {
+    "id": "NORMAL-001",
+    "title": "Healthy Eye Anatomy and Normal Vision",
+    "section": "general_info",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "healthy eyes",
+      "normal vision",
+      "optic nerve",
+      "prevention"
+    ],
+    "safety_tags": [
+      "educational"
+    ],
+    "source": "American Optometric Association",
+    "url": "https://www.aoa.org/",
+    "content": "\n**Understanding Healthy Eyes and Normal Vision**:\n\nYour eyes are complex organs that work together with your brain to provide vision. Understanding normal eye health helps you recognize when something might be wrong.\n\n**Normal Eye Structures**:\n- **Optic Nerve**: Transmits visual information from your eye to your brain. In healthy eyes, appears pink with adequate blood supply.\n- **Cup-to-Disc Ratio**: Normal is 0.2-0.4. The \"cup\" is the pale center of the optic disc.\n- **Retinal Nerve Fiber Layer**: Thick, intact layer visible as fine radiating lines around the optic disc.\n- **Blood Vessels**: Branch symmetrically from the optic disc.\n\n**Normal Eye Pressure**: 10-21 mmHg (millimeters of mercury). Pressure that's too high or too low can cause problems.\n\n**Signs of Healthy Eyes**:\n- Clear, sharp vision at all distances\n- Good peripheral (side) vision\n- Comfortable, non-irritated eyes\n- Appropriate response to light\n- Regular blinking and tear production\n\n**Protecting Your Vision**:\nEven with normal eye health, prevention is key. Annual eye exams help detect issues early before they cause vision loss.\n"
+  },
+  {
+    "id": "NORMAL-002",
+    "title": "Maintaining Eye Health - Prevention Strategies",
+    "section": "improvements",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "prevention",
+      "eye health",
+      "nutrition",
+      "lifestyle",
+      "screening"
+    ],
+    "safety_tags": [
+      "preventive_guidance"
+    ],
+    "source": "National Eye Institute",
+    "url": "https://www.nei.nih.gov/",
+    "content": "\n**Maintaining Eye Health - Prevention Strategies**:\n\nProtecting your vision requires ongoing care and awareness:\n\n**1. Regular Eye Exams**:\n- Every 2 years: Ages 18-60\n- Every year: Ages 60+, or if you have diabetes, family history of glaucoma, or high risk factors\n- Complete dilated eye exam detects issues before symptoms appear\n\n**2. Nutrition for Eye Health**:\n- **Lutein & Zeaxanthin**: Dark green leafy vegetables (spinach, kale), eggs\n- **Vitamin C**: Citrus fruits, bell peppers, strawberries\n- **Vitamin E**: Nuts, seeds, vegetable oils\n- **Omega-3**: Fatty fish (salmon, tuna), walnuts, flaxseed\n- **Zinc**: Oysters, beef, poultry\n- **Beta-carotene**: Carrots, sweet potatoes, apricots\n\n**3. Protect from UV Damage**:\n- Wear sunglasses with 100% UV protection\n- UV exposure increases risk of cataracts and macular degeneration\n- Choose wraparound styles for maximum coverage\n\n**4. Computer Eye Strain Prevention**:\n- 20-20-20 rule: Every 20 minutes, look 20 feet away for 20 seconds\n- Blink frequently\n- Adjust screen brightness\n- Use proper lighting\n\n**5. Quit Smoking**: Smoking increases risk of cataracts, macular degeneration, and diabetic retinopathy\n\n**6. Manage Chronic Conditions**: Control diabetes, hypertension, and maintain healthy weight\n\n**7. Know Your Family History**: Many eye conditions have genetic components\n"
+  },
+  {
+    "id": "NORMAL-003",
+    "title": "Understanding Normal vs. High Risk Features",
+    "section": "uncertainty",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "risk factors",
+      "screening",
+      "monitoring",
+      "normal variants"
+    ],
+    "safety_tags": [
+      "educational"
+    ],
+    "source": "Clinical Screening Guidelines",
+    "url": "",
+    "content": "\n**Understanding Normal vs. High Risk Features**:\n\nNot all fundus findings indicate disease. Understanding normal variations helps reduce anxiety:\n\n**Normal Fundus Features**:\n- Uniform optic disc color and healthy blood vessels\n- Cup-to-disc ratio between 0.2-0.4\n- Symmetric appearance between eyes\n- Clear retinal structures\n- Appropriate peripheral retina\n\n**High-Risk Features Requiring Monitoring**:\n- Family history of glaucoma\n- High myopia (> -6 diopters)\n- Previous eye injury\n- Use of corticosteroids (especially eye drops)\n- African, Asian, or Hispanic descent (higher POAG risk)\n- Age >60 years\n- Diabetes or high blood pressure\n- Sleep apnea (linked to some glaucoma types)\n\n**Normal Variants (Not Disease)**:\n- Physiological large cups in healthy individuals\n- Peripapillary atrophy in many healthy eyes\n- Pigment variations between racial groups\n- Slight asymmetry in C/D ratios between eyes\n\n**What Your AI Result Means**:\nIf AI analysis suggests \"normal\" with low glaucoma probability, this is reassuring but doesn't eliminate the need for regular professional eye care. Continue recommended screening schedules.\n\n**Remember**: AI tools are screening aids, not diagnostic replacements. Professional evaluation with comprehensive testing provides the complete picture.\n"
+  },
+  {
+    "id": "NORMAL-004",
+    "title": "When Normal Results Still Require Attention",
+    "section": "uncertainty",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "intermediate",
+    "keywords": [
+      "uncertainty",
+      "false negative",
+      "monitoring",
+      "preventive care"
+    ],
+    "safety_tags": [
+      "important_disclaimer"
+    ],
+    "source": "Clinical Decision Support",
+    "url": "",
+    "content": "\n**When Normal AI Results Still Require Attention**:\n\n**Important Limitations to Understand**:\n\n**1. False Negatives Are Possible**:\n- AI models trained on specific datasets may miss early glaucoma\n- Some glaucoma types don't present visible fundus changes early on\n- Normal-tension glaucoma may appear normal on imaging\n- Pre-perimetric glaucoma (before visual field changes) may be subtle\n\n**2. AI Cannot Assess Everything**:\n- Eye pressure (IOP) - requires tonometry\n- Visual fields - requires perimetry testing\n- Corneal thickness (pachymetry)\n- Angle anatomy (requires gonioscopy)\n- Family history and medications\n\n**3. What to Do with Normal Results**:\n- **Don't skip eye exams**: Continue regular professional evaluations\n- **Maintain preventive care**: Follow screening guidelines for your age group\n- **Report changes**: If you notice vision changes, seek care regardless of previous \"normal\" results\n- **Monitor risk factors**: If you have family history, diabetes, or other risk factors, more frequent monitoring may be needed\n\n**4. When to Seek Professional Evaluation Even with Normal AI Results**:\n- If you have new vision symptoms\n- Family history of glaucoma\n- Age >40 with no recent comprehensive eye exam\n- Elevated eye pressure measured elsewhere\n- Unexplained headaches or eye pain\n\n**Bottom Line**: Normal AI results are encouraging but supplement, don't replace, professional care.\n"
+  },
+  {
+    "id": "NORMAL-005",
+    "title": "Age-Related Changes vs. Disease",
+    "section": "uncertainty",
+    "condition_stage": "healthy",
+    "audience": "patient",
+    "locale": "en",
+    "reading_level": "basic",
+    "keywords": [
+      "aging",
+      "presbyopia",
+      "normal changes",
+      "prevention"
+    ],
+    "safety_tags": [
+      "educational"
+    ],
+    "source": "Geriatric Ophthalmology",
+    "url": "",
+    "content": "\n**Age-Related Changes vs. Disease**:\n\nUnderstanding normal aging vs. disease helps distinguish what requires attention:\n\n**Normal Age-Related Changes**:\n- **Presbyopia**: Difficulty reading small print, starting around age 40. This is normal and corrected with reading glasses.\n- **Slower dark adaptation**: Taking longer to adjust in dim light\n- **Need for more light**: Reading may require brighter lighting\n- **Floaters**: Occasional spots drifting in vision (usually harmless)\n- **Dry eyes**: More common with aging, especially in women post-menopause\n\n**These Don't Automatically Indicate Disease** - they're part of normal aging.\n\n**Changes Requiring Medical Attention**:\n- Sudden vision loss (any age)\n- Dark curtain or shadow in vision\n- Distorted or wavy lines\n- Persistent flashes of light\n- Significant increase in floaters\n- Double vision\n- Eye pain or severe redness\n\n**Why Screening Increases with Age**:\n- Risk of glaucoma, cataracts, macular degeneration, and diabetic retinopathy all increase with age\n- Early detection preserves vision\n- Many conditions are treatable when caught early\n\n**Takeaway**: Some age-related vision changes are normal, but regular exams catch treatable diseases early. Don't dismiss changes as \"just aging\" without professional evaluation.\n"
+  }
+]

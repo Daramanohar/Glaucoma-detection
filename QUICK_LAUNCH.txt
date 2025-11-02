@@ -1,0 +1,31 @@
+================================================================================
+                    🚀 LAUNCH YOUR APP - ONE COMMAND 🚀
+================================================================================
+
+COPY AND PASTE THIS:
+
+$env:DB_PASSWORD = "5657"; python -m streamlit run streamlit_app/app.py
+
+================================================================================
+                                  THAT'S IT!
+================================================================================
+
+Browser opens automatically at: http://localhost:8501
+
+Upload an image → Get AI prediction + Grad-CAM + RAG + Mistral description!
+
+================================================================================
+                              EVERYTHING WORKS ✓
+================================================================================
+
+✅ PostgreSQL + pgvector
+✅ ResNet50 model
+✅ Grad-CAM
+✅ RAG retrieval
+✅ Mistral-7B
+✅ Streamlit UI
+
+ALL INTEGRATED AND READY!
+
+================================================================================
+

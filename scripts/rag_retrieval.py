@@ -29,13 +29,29 @@ except ImportError as e:
 BASE_DIR = get_base_dir()
 
 # Database configuration
-DB_CONFIG = {
-    "host": os.getenv("DB_HOST", "localhost"),
-    "port": os.getenv("DB_PORT", "5432"),
-    "user": os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "postgres"),
-    "database": "glaucoma_rag"
-}
+def get_db_config():
+    """Get database configuration from environment or Streamlit secrets."""
+    try:
+        import streamlit as st
+        # Try Streamlit secrets first
+        return {
+            "host": st.secrets.get("DB_HOST", os.getenv("DB_HOST", "localhost")),
+            "port": st.secrets.get("DB_PORT", os.getenv("DB_PORT", "5432")),
+            "user": st.secrets.get("DB_USER", os.getenv("DB_USER", "postgres")),
+            "password": st.secrets.get("DB_PASSWORD", os.getenv("DB_PASSWORD", "postgres")),
+            "database": st.secrets.get("DB_NAME", os.getenv("DB_NAME", "glaucoma_rag"))
+        }
+    except:
+        # Fallback to environment variables
+        return {
+            "host": os.getenv("DB_HOST", "localhost"),
+            "port": os.getenv("DB_PORT", "5432"),
+            "user": os.getenv("DB_USER", "postgres"),
+            "password": os.getenv("DB_PASSWORD", "postgres"),
+            "database": os.getenv("DB_NAME", "glaucoma_rag")
+        }
+
+DB_CONFIG = get_db_config()
 
 # Embedding model (must match the one used for embedding generation)
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
@@ -63,7 +79,9 @@ class RAGRetriever:
         """Connect to database and load model."""
         # Connect to database
         try:
-            self.conn = psycopg2.connect(**DB_CONFIG)
+            # Get fresh config in case secrets changed
+            db_config = get_db_config()
+            self.conn = psycopg2.connect(**db_config)
             print("[OK] Connected to PostgreSQL database")
         except psycopg2.Error as e:
             print(f"[ERROR] Failed to connect to database: {e}")

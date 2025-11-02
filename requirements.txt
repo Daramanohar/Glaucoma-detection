@@ -6,7 +6,7 @@ scikit-learn>=1.3.0
 
 # Image Processing
 pillow>=10.0.0
-opencv-python>=4.8.0
+opencv-python-headless>=4.8.0  # Headless version for cloud deployment (no libGL dependency)
 scikit-image>=0.21.0
 imgaug>=0.4.0
 

@@ -143,7 +143,9 @@ def main():
         # Model info
         st.subheader("Model Details")
         st.write("- **Architecture**: ResNet50 (Transfer Learning)")
-        st.write("- **Input Size**: 224×224×3")
+        # Get actual model input size
+        actual_size = get_model_input_size(model)
+        st.write(f"- **Input Size**: {actual_size[0]}×{actual_size[1]}×3")
         st.write("- **Output**: Binary Classification (Normal/Glaucoma)")
         
         st.markdown("---")

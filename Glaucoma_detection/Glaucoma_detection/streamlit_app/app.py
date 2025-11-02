@@ -7,10 +7,15 @@ import streamlit as st
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-import cv2
 from pathlib import Path
 import sys
 import os
+
+# Try to import OpenCV, set to None if not available (e.g., in cloud environments)
+try:
+    import cv2
+except ImportError:
+    cv2 = None
 
 # Add parent directory to path to import scripts
 sys.path.append(str(Path(__file__).parent.parent))

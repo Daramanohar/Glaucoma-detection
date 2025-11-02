@@ -6,7 +6,6 @@ Generates heatmaps highlighting important regions for glaucoma detection
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-import cv2
 import matplotlib.pyplot as plt
 from pathlib import Path
 from PIL import Image
@@ -15,6 +14,12 @@ import os
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras import backend as K
 import argparse
+
+# Try to import OpenCV, set to None if not available (e.g., in cloud environments)
+try:
+    import cv2
+except ImportError:
+    cv2 = None
 
 
 class GradCAM:
@@ -143,6 +148,49 @@ class GradCAM:
         heatmap = tf.maximum(heatmap, 0) / tf.math.reduce_max(heatmap)
         
         return heatmap.numpy()
+    
+    def overlay_heatmap(self, img, heatmap, alpha=0.4, colormap=None):
+        """
+        Overlay heatmap on original image
+        
+        Args:
+            img: Original image (0-255 uint8)
+            heatmap: Heatmap array (0-1 float)
+            alpha: Transparency of heatmap overlay
+            colormap: OpenCV colormap
+        
+        Returns:
+            Overlaid image
+        """
+        if cv2 is None:
+            # Fallback for environments without OpenCV
+            heatmap_normalized = (heatmap - heatmap.min()) / (heatmap.max() - heatmap.min() + 1e-8)
+            heatmap_colored = matplotlib.pyplot.cm.jet(heatmap_normalized)[:, :, :3]
+            overlay = (1 - alpha) * img / 255.0 + alpha * heatmap_colored
+            return (overlay * 255).astype(np.uint8)
+        
+        # Original OpenCV implementation
+        if colormap is None:
+            colormap = cv2.COLORMAP_JET
+        # Resize heatmap to match image
+        heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
+        
+        # Convert to uint8
+        heatmap = (heatmap * 255).astype(np.uint8)
+        
+        # Apply colormap
+        heatmap_colored = cv2.applyColorMap(heatmap, colormap)
+        
+        # Convert image to RGB if needed
+        if len(img.shape) == 2:
+            img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        elif img.shape[2] == 1:
+            img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        
+        # Overlay
+        overlaid = cv2.addWeighted(img, 1 - alpha, heatmap_colored, alpha, 0)
+        
+        return overlaid
 
 
 def occlusion_overlay(model, img_path, save_path, patch=32, stride=16, baseline=0.0):
@@ -167,45 +215,24 @@ def occlusion_overlay(model, img_path, save_path, patch=32, stride=16, baseline=
     if heat.max() > 0:
         heat /= heat.max()
     heat_255 = (heat*255).astype(np.uint8)
-    heat_color = cv2.applyColorMap(heat_255, cv2.COLORMAP_JET)
-    base = cv2.cvtColor((arr*255).astype(np.uint8), cv2.COLOR_RGB2BGR)
-    over = cv2.addWeighted(base, 0.6, heat_color, 0.4, 0)
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    cv2.imwrite(save_path, over)
-    return heat
     
-    def overlay_heatmap(self, img, heatmap, alpha=0.4, colormap=cv2.COLORMAP_JET):
-        """
-        Overlay heatmap on original image
-        
-        Args:
-            img: Original image (0-255 uint8)
-            heatmap: Heatmap array (0-1 float)
-            alpha: Transparency of heatmap overlay
-            colormap: OpenCV colormap
-        
-        Returns:
-            Overlaid image
-        """
-        # Resize heatmap to match image
-        heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
-        
-        # Convert to uint8
-        heatmap = (heatmap * 255).astype(np.uint8)
-        
-        # Apply colormap
-        heatmap_colored = cv2.applyColorMap(heatmap, colormap)
-        
-        # Convert image to RGB if needed
-        if len(img.shape) == 2:
-            img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
-        elif img.shape[2] == 1:
-            img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
-        
-        # Overlay
-        overlaid = cv2.addWeighted(img, 1 - alpha, heatmap_colored, alpha, 0)
-        
-        return overlaid
+    # Use OpenCV if available, otherwise matplotlib
+    if cv2 is not None:
+        heat_color = cv2.applyColorMap(heat_255, cv2.COLORMAP_JET)
+        base = cv2.cvtColor((arr*255).astype(np.uint8), cv2.COLOR_RGB2BGR)
+        over = cv2.addWeighted(base, 0.6, heat_color, 0.4, 0)
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        cv2.imwrite(save_path, over)
+    else:
+        # Fallback to matplotlib
+        heatmap_colored = matplotlib.pyplot.cm.jet(heat)[:, :, :3]
+        overlay = (1 - 0.4) * arr + 0.4 * heatmap_colored
+        over = (overlay * 255).astype(np.uint8)
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        pil_img = Image.fromarray(over)
+        pil_img.save(save_path)
+    
+    return heat
 
 
 def preprocess_image(img_path, target_size=(224, 224)):
@@ -267,7 +294,10 @@ def generate_gradcam_for_sample(model_path, img_path, save_path, layer_name=None
     axes[1].set_title('Grad-CAM Heatmap', fontsize=12)
     axes[1].axis('off')
     
-    axes[2].imshow(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB))
+    if cv2 is not None:
+        axes[2].imshow(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB))
+    else:
+        axes[2].imshow(overlaid)
     axes[2].set_title('Overlaid Heatmap', fontsize=12)
     axes[2].axis('off')
     

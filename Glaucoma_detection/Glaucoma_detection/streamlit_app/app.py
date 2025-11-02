@@ -1,6 +1,7 @@
 """
 Streamlit Web Application for Glaucoma Detection
 Provides interactive interface for image upload, prediction, and Grad-CAM visualization
+Updated: Auto-detect model input size
 """
 
 import streamlit as st

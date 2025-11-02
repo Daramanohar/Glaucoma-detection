@@ -7,10 +7,16 @@ import streamlit as st
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-import cv2
 from pathlib import Path
 import sys
 import os
+
+# Try to import OpenCV, set to None if not available (e.g., in cloud environments)
+try:
+    import cv2
+except ImportError:
+    cv2 = None
+    st.warning("OpenCV not available - Grad-CAM overlays will be disabled")
 
 # Add parent directory to path to import scripts
 sys.path.append(str(Path(__file__).parent.parent))
@@ -386,7 +392,10 @@ def main():
                         st.pyplot(fig)
                     
                     with tab3:
-                        st.image(cv2.cvtColor(st.session_state['overlaid'], cv2.COLOR_BGR2RGB), use_container_width=True)
+                        if cv2 is not None:
+                            st.image(cv2.cvtColor(st.session_state['overlaid'], cv2.COLOR_BGR2RGB), use_container_width=True)
+                        else:
+                            st.image(st.session_state['overlaid'], use_container_width=True)
                     
                     # Download button
                     label = "⚠️ Glaucoma Detected" if prob > 0.5 else "✅ Normal"
@@ -426,7 +435,10 @@ def main():
                                 st.pyplot(fig)
                             
                             with tab3:
-                                st.image(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB), use_container_width=True)
+                                if cv2 is not None:
+                                    st.image(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB), use_container_width=True)
+                                else:
+                                    st.image(overlaid, use_container_width=True)
             else:
                 st.info("Enable Grad-CAM to visualize model attention")
         

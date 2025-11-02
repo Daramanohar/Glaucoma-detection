@@ -6,7 +6,6 @@ Generates heatmaps highlighting important regions for glaucoma detection
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-import cv2
 import matplotlib.pyplot as plt
 from pathlib import Path
 from PIL import Image
@@ -15,6 +14,12 @@ import os
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.applications.resnet50 import preprocess_input
 import argparse
+
+# Try to import OpenCV, set to None if not available (e.g., in cloud environments)
+try:
+    import cv2
+except ImportError:
+    cv2 = None
 
 
 class GradCAM:
@@ -196,8 +201,19 @@ class GradCAM:
     #  Heatmap overlay
     # -----------------------------------------------------------
 
-    def overlay_heatmap(self, img, heatmap, alpha=0.4, colormap=cv2.COLORMAP_JET):
+    def overlay_heatmap(self, img, heatmap, alpha=0.4, colormap=None):
         """Overlay heatmap on image."""
+        if cv2 is None:
+            # Fallback for environments without OpenCV
+            import matplotlib.pyplot as plt
+            heatmap_normalized = (heatmap - heatmap.min()) / (heatmap.max() - heatmap.min() + 1e-8)
+            heatmap_colored = plt.cm.jet(heatmap_normalized)[:, :, :3]
+            overlay = (1 - alpha) * img / 255.0 + alpha * heatmap_colored
+            return (overlay * 255).astype(np.uint8)
+        
+        # Original OpenCV implementation
+        if colormap is None:
+            colormap = cv2.COLORMAP_JET
         heatmap = np.uint8(255 * heatmap)
         heatmap = cv2.applyColorMap(heatmap, colormap)
         overlay = cv2.addWeighted(img, 1 - alpha, heatmap, alpha, 0)
@@ -271,7 +287,10 @@ def generate_gradcam_for_sample(model_path, img_path, save_path, layer_name=None
     axes[1].set_title('Grad-CAM Heatmap', fontsize=12)
     axes[1].axis('off')
     
-    axes[2].imshow(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB))
+    if cv2 is not None:
+        axes[2].imshow(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB))
+    else:
+        axes[2].imshow(overlaid)
     axes[2].set_title('Overlaid Heatmap', fontsize=12)
     axes[2].axis('off')
     

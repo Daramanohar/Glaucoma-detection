@@ -1,6 +1,7 @@
 """
 Grad-CAM Implementation for Model Explainability
 Generates heatmaps highlighting important regions for glaucoma detection
+Version: 2.0 - Fixed named input handling for Functional models
 """
 
 import numpy as np
@@ -123,6 +124,8 @@ class GradCAM:
         Returns:
             Heatmap as numpy array
         """
+        # Version 2.0: Robust input handling
+        print("[GradCAM v2.0] Using robust input handling with 5 fallback methods")
         # Handle named input layers
         # Check for named inputs - if detected, use dictionary format
         input_name = None

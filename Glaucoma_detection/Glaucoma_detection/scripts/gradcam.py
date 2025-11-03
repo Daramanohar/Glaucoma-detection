@@ -1,7 +1,7 @@
 """
 Grad-CAM Implementation for Model Explainability
 Generates heatmaps highlighting important regions for glaucoma detection
-Version: 2.0 - Fixed named input handling for Functional models
+Version: 6.0 - Direct gradient computation, bypassing grad_model issues
 """
 
 import numpy as np
@@ -118,7 +118,7 @@ class GradCAM:
     
     def make_gradcam_heatmap(self, img_array, pred_index=None):
         """
-        Generate Grad-CAM heatmap (v5 - ultra simple)
+        Generate Grad-CAM heatmap (v6 - bypass grad_model)
         
         Args:
             img_array: Preprocessed image array
@@ -127,7 +127,7 @@ class GradCAM:
         Returns:
             Heatmap as numpy array
         """
-        print("[GradCAM v5.0] Ultra-simple approach")
+        print("[GradCAM v6.0] Bypassing grad_model - direct computation")
         
         # Ensure tensor format
         if not isinstance(img_array, tf.Tensor):
@@ -141,12 +141,38 @@ class GradCAM:
         if pred_index is None:
             pred_index = np.argmax(preds[0])
         
-        # Compute gradients - grad_model expects the same format as the model
+        # Find the target conv layer directly
+        target_layer = None
+        if self.layer_name:
+            target_layer = self.model.get_layer(self.layer_name)
+        else:
+            # Find last conv layer
+            for layer in reversed(self.model.layers):
+                if hasattr(layer, 'output') and hasattr(layer.output, 'shape'):
+                    if len(layer.output.shape) == 4:  # Conv layer
+                        target_layer = layer
+                        break
+        
+        if target_layer is None:
+            raise ValueError("Could not find target convolutional layer")
+        
+        # Create a NEW model for getting conv outputs (avoiding the problematic grad_model)
+        conv_model = keras.Model(
+            inputs=self.model.input,
+            outputs=target_layer.output
+        )
+        
+        # Compute gradients directly
         with tf.GradientTape() as tape:
-            conv_outputs, predictions = self.grad_model(model_input, training=False)
+            tape.watch(img_array)
+            # Get conv outputs
+            conv_outputs = conv_model(model_input, training=False)
+            # Get predictions
+            predictions = self.model(model_input, training=False)
+            # Get loss for target class
             loss = predictions[:, pred_index]
         
-        # Get gradients
+        # Get gradients of loss w.r.t. conv outputs
         grads = tape.gradient(loss, conv_outputs)
         
         # Global average pooling

@@ -20,9 +20,25 @@ except ImportError:
 
 # Add parent directory to path to import scripts
 sys.path.append(str(Path(__file__).parent.parent))
+# Also add repo root to path (two levels up) for shared scripts
+try:
+    sys.path.append(str(Path(__file__).resolve().parents[2]))
+except Exception:
+    pass
 
 from scripts.gradcam import GradCAM, preprocess_image, generate_gradcam_for_sample
-from scripts.groq_interface import check_groq, generate_description
+
+# Robust imports for Groq and RAG modules
+try:
+    from scripts.groq_interface import check_groq, generate_description
+except ModuleNotFoundError:
+    # Fallback: if running from nested app, try absolute import via repo root
+    from groq_interface import check_groq, generate_description
+
+try:
+    from scripts.rag_retrieval import retrieve_for_prediction
+except ModuleNotFoundError:
+    from rag_retrieval import retrieve_for_prediction
 
 # Page configuration
 st.set_page_config(

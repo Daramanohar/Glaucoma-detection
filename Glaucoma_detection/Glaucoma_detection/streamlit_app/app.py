@@ -25,7 +25,7 @@ from scripts.gradcam import GradCAM, preprocess_image, generate_gradcam_for_samp
 
 # Page configuration
 st.set_page_config(
-    page_title="Glaucoma Detection System",
+    page_title="Glaucoma Detection System v6",  # Version marker to force refresh
     page_icon="👁️",
     layout="wide",
     initial_sidebar_state="expanded"

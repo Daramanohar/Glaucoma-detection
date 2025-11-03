@@ -22,6 +22,7 @@ except ImportError:
 sys.path.append(str(Path(__file__).parent.parent))
 
 from scripts.gradcam import GradCAM, preprocess_image, generate_gradcam_for_sample
+from scripts.groq_interface import check_groq, generate_description
 
 # Page configuration
 st.set_page_config(
@@ -183,7 +184,7 @@ def main():
         # Dataset info (if available)
         data_summary_path = BASE_DIR / "processed_data" / "data_summary.json"
         if data_summary_path.exists():
-            import json
+            import json 
             with open(data_summary_path) as f:
                 summary = json.load(f)
             st.subheader("Dataset Summary")

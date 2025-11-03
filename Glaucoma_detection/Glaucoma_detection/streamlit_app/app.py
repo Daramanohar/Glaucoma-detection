@@ -50,33 +50,14 @@ def load_model():
         return None, "Model file not found. Please train the model first."
 
 
-def get_model_input_size(model):
-    """Get the input size expected by the model"""
-    try:
-        # Try multiple ways to get input shape
-        if hasattr(model, 'inputs') and model.inputs:
-            input_shape = model.inputs[0].shape
-            if input_shape and len(input_shape) >= 4:
-                return (int(input_shape[1]), int(input_shape[2]))
-        elif hasattr(model, 'input_shape') and model.input_shape:
-            input_shape = model.input_shape
-            if isinstance(input_shape, (list, tuple)) and len(input_shape) > 0:
-                shape = input_shape[0] if isinstance(input_shape[0], (list, tuple)) else input_shape
-                if len(shape) >= 3:
-                    return (int(shape[1]), int(shape[2]))
-    except Exception as e:
-        print(f"Warning: Could not detect model input size: {e}")
-    # Default fallback
-    return (256, 256)
+# Fixed input size for the model
+MODEL_INPUT_SIZE = (256, 256)
 
 
 def predict_image(model, image):
     """Predict glaucoma probability for an image"""
-    # Get model input size
-    img_size = get_model_input_size(model)
-    
     # Preprocess
-    img_array = np.array(image.resize(img_size)) / 255.0
+    img_array = np.array(image.resize(MODEL_INPUT_SIZE)) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
     
     # Predict
@@ -89,9 +70,6 @@ def predict_image(model, image):
 def display_gradcam(model, image, temp_path):
     """Generate and display Grad-CAM visualization"""
     try:
-        # Get model input size
-        img_size = get_model_input_size(model)
-        
         # Save image temporarily
         image.save(temp_path)
         
@@ -99,7 +77,7 @@ def display_gradcam(model, image, temp_path):
         gradcam = GradCAM(model)
         
         # Generate visualization
-        img_array, _ = preprocess_image(str(temp_path), target_size=img_size)
+        img_array, _ = preprocess_image(str(temp_path), target_size=MODEL_INPUT_SIZE)
         heatmap = gradcam.make_gradcam_heatmap(img_array)
         
         # Overlay
@@ -143,9 +121,7 @@ def main():
         # Model info
         st.subheader("Model Details")
         st.write("- **Architecture**: ResNet50 (Transfer Learning)")
-        # Get actual model input size
-        actual_size = get_model_input_size(model)
-        st.write(f"- **Input Size**: {actual_size[0]}×{actual_size[1]}×3")
+        st.write(f"- **Input Size**: {MODEL_INPUT_SIZE[0]}×{MODEL_INPUT_SIZE[1]}×3")
         st.write("- **Output**: Binary Classification (Normal/Glaucoma)")
         
         st.markdown("---")

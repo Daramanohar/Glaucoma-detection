@@ -1,7 +1,7 @@
 """
 Grad-CAM Implementation for Model Explainability
 Generates heatmaps highlighting important regions for glaucoma detection
-Version: 6.0 - Direct gradient computation, bypassing grad_model issues
+Version: 7.0 - Handle ResNet50 as sublayer in the model structure
 """
 
 import numpy as np
@@ -127,7 +127,7 @@ class GradCAM:
         Returns:
             Heatmap as numpy array
         """
-        print("[GradCAM v6.0] Bypassing grad_model - direct computation")
+        print("[GradCAM v7.0] Handling ResNet50 as sublayer")
         
         # Ensure tensor format
         if not isinstance(img_array, tf.Tensor):
@@ -141,25 +141,46 @@ class GradCAM:
         if pred_index is None:
             pred_index = np.argmax(preds[0])
         
-        # Find the target conv layer directly
+        # Find the target conv layer
         target_layer = None
+        
+        # The model has ResNet50 as a sublayer - we need to access layers within it
+        resnet_layer = None
+        for layer in self.model.layers:
+            if 'resnet' in layer.name.lower() or layer.name == 'resnet50':
+                resnet_layer = layer
+                break
+        
+        if resnet_layer is None:
+            raise ValueError("Could not find ResNet50 layer in model")
+        
+        # Now find the target conv layer within ResNet50
         if self.layer_name:
-            target_layer = self.model.get_layer(self.layer_name)
-        else:
-            # Find last conv layer
-            for layer in reversed(self.model.layers):
+            try:
+                # Try to get from the ResNet50 sublayer
+                target_layer = resnet_layer.get_layer(self.layer_name)
+            except:
+                # Fallback to last conv layer
+                pass
+        
+        if target_layer is None:
+            # Find last conv layer in ResNet50
+            for layer in reversed(resnet_layer.layers):
                 if hasattr(layer, 'output') and hasattr(layer.output, 'shape'):
                     if len(layer.output.shape) == 4:  # Conv layer
                         target_layer = layer
+                        print(f"[GradCAM] Using layer: {layer.name}")
                         break
         
         if target_layer is None:
-            raise ValueError("Could not find target convolutional layer")
+            raise ValueError("Could not find target convolutional layer in ResNet50")
         
-        # Create a NEW model for getting conv outputs (avoiding the problematic grad_model)
+        # Create a NEW model for getting conv outputs
+        # Since target_layer is inside resnet_layer, we need to access it properly
+        # We'll create a model that outputs from the ResNet50 sublayer
         conv_model = keras.Model(
             inputs=self.model.input,
-            outputs=target_layer.output
+            outputs=resnet_layer.get_layer(target_layer.name).output
         )
         
         # Compute gradients directly

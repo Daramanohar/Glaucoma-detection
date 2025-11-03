@@ -118,7 +118,7 @@ class GradCAM:
     
     def make_gradcam_heatmap(self, img_array, pred_index=None):
         """
-        Generate Grad-CAM heatmap (v3 - simplified approach)
+        Generate Grad-CAM heatmap (v5 - ultra simple)
         
         Args:
             img_array: Preprocessed image array
@@ -127,66 +127,106 @@ class GradCAM:
         Returns:
             Heatmap as numpy array
         """
-        print("[GradCAM v3.0] Simplified approach for Functional models")
+        print("[GradCAM v5.0] Ultra-simple approach")
+        
+        # Ensure tensor format
+        if not isinstance(img_array, tf.Tensor):
+            img_array = tf.constant(img_array)
+        
+        # The model expects {'input_layer_1': tensor} based on the error messages
+        model_input = {'input_layer_1': img_array}
+        
+        # Get prediction
+        preds = self.model.predict(model_input, verbose=0)
+        if pred_index is None:
+            pred_index = np.argmax(preds[0])
+        
+        # Compute gradients - grad_model expects the same format as the model
+        with tf.GradientTape() as tape:
+            conv_outputs, predictions = self.grad_model(model_input, training=False)
+            loss = predictions[:, pred_index]
+        
+        # Get gradients
+        grads = tape.gradient(loss, conv_outputs)
+        
+        # Global average pooling
+        pooled_grads = tf.reduce_mean(grads, axis=(0, 1, 2))
+        
+        # Weight feature maps
+        conv_outputs = conv_outputs[0]
+        heatmap = conv_outputs @ pooled_grads[..., tf.newaxis]
+        heatmap = tf.squeeze(heatmap)
+        
+        # Normalize
+        heatmap = tf.maximum(heatmap, 0) / tf.math.reduce_max(heatmap)
+        
+        return heatmap.numpy()
+    
+    def make_gradcam_heatmap_v4(self, img_array, pred_index=None):
+        """
+        Generate Grad-CAM heatmap (v4 - direct gradient computation)
+        
+        Args:
+            img_array: Preprocessed image array
+            pred_index: Class index to generate heatmap for (None = use predicted class)
+        
+        Returns:
+            Heatmap as numpy array
+        """
+        print("[GradCAM v4.0] Direct gradient computation approach")
         
         # Convert to tensor if not already
         if not isinstance(img_array, tf.Tensor):
             img_array = tf.constant(img_array)
         
-        # Get model prediction first to determine the class
-        # The model expects a specific input format - let's detect it
-        try:
-            # Try with the expected named input first
-            preds = self.model.predict({'input_layer_1': img_array}, verbose=0)
-            use_dict_input = True
-            input_key = 'input_layer_1'
-        except:
+        # First, get the prediction using the model directly
+        # Try different input formats to find what works
+        preds = None
+        for attempt_format in [
+            {'input_layer_1': img_array},  # Named input
+            img_array,  # Raw tensor
+        ]:
             try:
-                # Try with raw tensor
-                preds = self.model.predict(img_array, verbose=0)
-                use_dict_input = False
-                input_key = None
+                preds = self.model.predict(attempt_format, verbose=0)
+                model_input = attempt_format  # Remember what worked
+                break
             except:
-                # Last resort - try to find the actual input name
-                if hasattr(self.model, 'input_names') and self.model.input_names:
-                    input_key = self.model.input_names[0]
-                    preds = self.model.predict({input_key: img_array}, verbose=0)
-                    use_dict_input = True
-                else:
-                    raise ValueError("Could not determine model input format")
+                continue
+        
+        if preds is None:
+            raise ValueError("Could not get model prediction with any input format")
         
         if pred_index is None:
             pred_index = np.argmax(preds[0])
         
-        # Now compute gradients using the same input format
+        # Get the target conv layer
+        target_layer = None
+        if self.layer_name:
+            target_layer = self.model.get_layer(self.layer_name)
+        else:
+            # Find last conv layer
+            for layer in reversed(self.model.layers):
+                if len(layer.output_shape) == 4:  # Conv layer
+                    target_layer = layer
+                    break
+        
+        if target_layer is None:
+            raise ValueError("Could not find target convolutional layer")
+        
+        # Create a new gradient model that directly uses the model's layers
+        # This avoids the input format issues
         with tf.GradientTape() as tape:
-            # Prepare input for grad_model
-            if use_dict_input:
-                # The grad_model was built with self.model.input, 
-                # so it should accept the same format as the model
-                inputs = {input_key: img_array}
-            else:
-                inputs = img_array
+            # Use tf.function to ensure proper graph mode execution
+            @tf.function
+            def compute_outputs(x):
+                # Get the conv layer output and model prediction in one pass
+                conv_model = keras.Model(inputs=self.model.input, outputs=target_layer.output)
+                conv_out = conv_model(x, training=False)
+                pred_out = self.model(x, training=False)
+                return conv_out, pred_out
             
-            # Call grad_model - it returns [conv_outputs, predictions]
-            try:
-                outputs = self.grad_model(inputs, training=False)
-                conv_outputs, predictions = outputs[0], outputs[1]
-            except Exception as e:
-                # If that fails, try creating a new input tensor that matches the model's expectation
-                print(f"[GradCAM] First attempt failed: {e}")
-                # Create a proper input tensor that matches the model's input spec
-                if hasattr(self, 'model_input_spec'):
-                    # Try to match the input spec exactly
-                    if isinstance(self.model_input_spec, list):
-                        inputs = [img_array]
-                    else:
-                        inputs = img_array
-                    outputs = self.grad_model(inputs, training=False)
-                    conv_outputs, predictions = outputs[0], outputs[1]
-                else:
-                    raise e
-            
+            # Call with the format that worked for predict
+            conv_outputs, predictions = compute_outputs(model_input)
             loss = predictions[:, pred_index]
         
         # Get gradients

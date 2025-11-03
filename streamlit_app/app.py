@@ -261,7 +261,7 @@ def main():
         if uploaded_file is not None:
             # Display uploaded image
             image = Image.open(uploaded_file).convert('RGB')
-            st.image(image, caption="Uploaded Image", use_container_width=True)
+            st.image(image, caption="Uploaded Image", width='stretch')
             
             # Prediction button
             if st.button("🔍 Predict", type="primary"):
@@ -381,7 +381,7 @@ def main():
                     tab1, tab2, tab3 = st.tabs(["Original", "Heatmap", "Overlay"])
                     
                     with tab1:
-                        st.image(st.session_state['image'], use_container_width=True)
+                        st.image(st.session_state['image'], width='stretch')
                     
                     with tab2:
                         import matplotlib.pyplot as plt
@@ -393,9 +393,9 @@ def main():
                     
                     with tab3:
                         if cv2 is not None:
-                            st.image(cv2.cvtColor(st.session_state['overlaid'], cv2.COLOR_BGR2RGB), use_container_width=True)
+                            st.image(cv2.cvtColor(st.session_state['overlaid'], cv2.COLOR_BGR2RGB), width='stretch')
                         else:
-                            st.image(st.session_state['overlaid'], use_container_width=True)
+                            st.image(st.session_state['overlaid'], width='stretch')
                     
                     # Download button
                     label = "⚠️ Glaucoma Detected" if prob > 0.5 else "✅ Normal"
@@ -424,7 +424,7 @@ def main():
                             tab1, tab2, tab3 = st.tabs(["Original", "Heatmap", "Overlay"])
                             
                             with tab1:
-                                st.image(st.session_state['image'], use_container_width=True)
+                                st.image(st.session_state['image'], width='stretch')
                             
                             with tab2:
                                 import matplotlib.pyplot as plt
@@ -436,9 +436,9 @@ def main():
                             
                             with tab3:
                                 if cv2 is not None:
-                                    st.image(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB), use_container_width=True)
+                                    st.image(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB), width='stretch')
                                 else:
-                                    st.image(overlaid, use_container_width=True)
+                                    st.image(overlaid, width='stretch')
             else:
                 st.info("Enable Grad-CAM to visualize model attention")
         
@@ -474,14 +474,14 @@ def main():
         if cm_path.exists():
             st.markdown("---")
             st.subheader("Confusion Matrix")
-            st.image(str(cm_path), use_container_width=True)
+            st.image(str(cm_path), width='stretch')
         
         # Display ROC curve if available
         roc_path = RESULTS_DIR / "roc_auc.png"
         if roc_path.exists():
             st.markdown("---")
             st.subheader("ROC Curve")
-            st.image(str(roc_path), use_container_width=True)
+            st.image(str(roc_path), width='stretch')
     else:
         st.info("Run evaluation script to see metrics here")
     

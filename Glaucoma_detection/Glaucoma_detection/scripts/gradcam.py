@@ -154,9 +154,27 @@ class GradCAM:
         if pred_index is None:
             pred_index = np.argmax(preds[0])
         
-        # Compute gradients
+        # Compute gradients (be robust to named/unnamed inputs)
         with tf.GradientTape() as tape:
-            conv_outputs, predictions = self.grad_model(model_input, training=False)
+            try:
+                # First attempt: pass through as prepared (tensor or dict)
+                conv_outputs, predictions = self.grad_model(model_input, training=False)
+            except Exception:
+                # If the Functional model expects a named input (e.g., "input_layer_1"),
+                # retry by mapping to the first known input name.
+                try:
+                    input_name = self.grad_model.input_names[0]
+                    if isinstance(model_input, dict):
+                        # Extract the underlying array/tensor and remap with the correct key
+                        value = next(iter(model_input.values()))
+                        fixed_input = {input_name: value}
+                    else:
+                        fixed_input = {input_name: model_input}
+                    conv_outputs, predictions = self.grad_model(fixed_input, training=False)
+                except Exception:
+                    # Final fallback: try passing only the raw tensor/array
+                    value = next(iter(model_input.values())) if isinstance(model_input, dict) else model_input
+                    conv_outputs, predictions = self.grad_model(value, training=False)
             loss = predictions[:, pred_index]
         
         # Get gradients

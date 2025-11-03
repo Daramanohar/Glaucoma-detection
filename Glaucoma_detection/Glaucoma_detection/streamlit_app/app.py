@@ -21,19 +21,19 @@ except ImportError:
 
 # Add parent directory to path to import scripts
 sys.path.append(str(Path(__file__).parent.parent))
-# Also add repo root to path (two and three levels up) for shared scripts
-try:
-    sys.path.append(str(Path(__file__).resolve().parents[2]))
-except Exception:
-    pass
-try:
-    sys.path.append(str(Path(__file__).resolve().parents[3]))
-except Exception:
-    pass
 
-from scripts.gradcam import GradCAM, preprocess_image, generate_gradcam_for_sample
+# Dynamically locate repo root that contains 'scripts/groq_interface.py'
+try:
+    candidates = [Path(__file__).resolve().parents[i] for i in range(1, 6)]
+    for cand in candidates:
+        if (cand / 'scripts' / 'groq_interface.py').exists():
+            sys.path.insert(0, str(cand))
+            break
+except Exception:
+    pass
 
 # Robust imports for Groq and RAG modules
+import importlib
 try:
     GI = importlib.import_module('scripts.groq_interface')
 except Exception:
@@ -48,6 +48,8 @@ except Exception:
     RR = importlib.import_module('rag_retrieval')
 
 retrieve_for_prediction = RR.retrieve_for_prediction
+
+from scripts.gradcam import GradCAM, preprocess_image, generate_gradcam_for_sample
 
 # Page configuration
 st.set_page_config(

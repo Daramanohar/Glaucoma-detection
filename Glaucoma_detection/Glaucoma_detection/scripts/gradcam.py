@@ -118,88 +118,46 @@ class GradCAM:
     
     def make_gradcam_heatmap(self, img_array, pred_index=None):
         """
-        Generate Grad-CAM heatmap (v6 - bypass grad_model)
-        
-        Args:
-            img_array: Preprocessed image array
-            pred_index: Class index to generate heatmap for (None = use predicted class)
-        
-        Returns:
-            Heatmap as numpy array
+        Generate Grad-CAM heatmap - SIMPLE WORKING VERSION
         """
-        print("[GradCAM v7.0] Handling ResNet50 as sublayer")
+        print("[GradCAM v8.0] Simple working version")
         
-        # Ensure tensor format
-        if not isinstance(img_array, tf.Tensor):
-            img_array = tf.constant(img_array)
+        # Just use the pre-built grad_model from __init__ - it was built correctly!
+        # The issue was we were trying to be too clever with input formats
         
-        # The model expects {'input_layer_1': tensor} based on the error messages
-        model_input = {'input_layer_1': img_array}
+        # Ensure numpy array format
+        if isinstance(img_array, tf.Tensor):
+            img_array = img_array.numpy()
         
-        # Get prediction
-        preds = self.model.predict(model_input, verbose=0)
+        # Get prediction to determine class
+        # Use the simple format that works
+        preds = self.model.predict({'input_layer_1': img_array}, verbose=0)
         if pred_index is None:
             pred_index = np.argmax(preds[0])
         
-        # Find the target conv layer
-        target_layer = None
-        
-        # The model has ResNet50 as a sublayer - we need to access layers within it
-        resnet_layer = None
-        for layer in self.model.layers:
-            if 'resnet' in layer.name.lower() or layer.name == 'resnet50':
-                resnet_layer = layer
-                break
-        
-        if resnet_layer is None:
-            raise ValueError("Could not find ResNet50 layer in model")
-        
-        # Now find the target conv layer within ResNet50
-        if self.layer_name:
-            try:
-                # Try to get from the ResNet50 sublayer
-                target_layer = resnet_layer.get_layer(self.layer_name)
-            except:
-                # Fallback to last conv layer
-                pass
-        
-        if target_layer is None:
-            # Find last conv layer in ResNet50
-            for layer in reversed(resnet_layer.layers):
-                if hasattr(layer, 'output') and hasattr(layer.output, 'shape'):
-                    if len(layer.output.shape) == 4:  # Conv layer
-                        target_layer = layer
-                        print(f"[GradCAM] Using layer: {layer.name}")
-                        break
-        
-        if target_layer is None:
-            raise ValueError("Could not find target convolutional layer in ResNet50")
-        
-        # Create a NEW model for getting conv outputs
-        # Since target_layer is inside resnet_layer, we need to access it properly
-        # We'll create a model that outputs from the ResNet50 sublayer
-        conv_model = keras.Model(
-            inputs=self.model.input,
-            outputs=resnet_layer.get_layer(target_layer.name).output
-        )
-        
-        # Compute gradients directly
+        # Use the grad_model that was already built in __init__
+        # It already has the right structure!
         with tf.GradientTape() as tape:
-            tape.watch(img_array)
-            # Get conv outputs
-            conv_outputs = conv_model(model_input, training=False)
-            # Get predictions
-            predictions = self.model(model_input, training=False)
-            # Get loss for target class
+            # Convert to tensor for gradient computation
+            img_tensor = tf.constant(img_array)
+            
+            # The grad_model expects the SAME input as the model
+            # Just pass it through directly with the dict format
+            inputs_dict = {'input_layer_1': img_tensor}
+            
+            # Get outputs from grad_model
+            conv_outputs, predictions = self.grad_model(inputs_dict, training=False)
+            
+            # Get loss for the predicted class
             loss = predictions[:, pred_index]
         
-        # Get gradients of loss w.r.t. conv outputs
+        # Compute gradients
         grads = tape.gradient(loss, conv_outputs)
         
-        # Global average pooling
+        # Pool the gradients
         pooled_grads = tf.reduce_mean(grads, axis=(0, 1, 2))
         
-        # Weight feature maps
+        # Weight the conv outputs
         conv_outputs = conv_outputs[0]
         heatmap = conv_outputs @ pooled_grads[..., tf.newaxis]
         heatmap = tf.squeeze(heatmap)

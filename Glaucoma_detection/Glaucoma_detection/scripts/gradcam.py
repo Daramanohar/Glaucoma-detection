@@ -124,11 +124,29 @@ class GradCAM:
             Heatmap as numpy array
         """
         # Handle named input layers
+        # Check for named inputs - if detected, use dictionary format
+        input_name = None
         if hasattr(self.model, 'input_names') and self.model.input_names:
             input_name = self.model.input_names[0]
+        elif isinstance(self.model.inputs, list) and len(self.model.inputs) > 0:
+            try:
+                if hasattr(self.model.inputs[0], 'name') and self.model.inputs[0].name:
+                    input_name = self.model.inputs[0].name
+            except:
+                pass
+        
+        # Use dictionary format if input_name found
+        if input_name:
             model_input = {input_name: img_array}
         else:
-            model_input = img_array
+            # Try 'input_layer_1' first (based on error message), fallback to tensor
+            try:
+                test_model_input = {"input_layer_1": img_array}
+                _ = self.model.predict(test_model_input, verbose=0)
+                model_input = test_model_input
+            except:
+                # Fall back to tensor format for models without named inputs
+                model_input = img_array
         
         # Get predictions
         preds = self.model.predict(model_input, verbose=0)

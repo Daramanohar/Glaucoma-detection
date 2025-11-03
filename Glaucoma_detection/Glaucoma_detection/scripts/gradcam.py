@@ -235,7 +235,7 @@ def occlusion_overlay(model, img_path, save_path, patch=32, stride=16, baseline=
     return heat
 
 
-def preprocess_image(img_path, target_size=(224, 224)):
+def preprocess_image(img_path, target_size=(256, 256)):
     """Load and preprocess image for model prediction"""
     img = load_img(img_path, target_size=target_size)
     img_array = img_to_array(img)
@@ -263,7 +263,7 @@ def generate_gradcam_for_sample(model_path, img_path, save_path, layer_name=None
             target_size = (int(ishape[2]), int(ishape[1]))  # (W,H)
             target_size = (target_size[0], target_size[1])
         except Exception:
-            target_size = (224, 224)
+            target_size = (256, 256)
     # Load and preprocess image
     img_array, img = preprocess_image(img_path, target_size=target_size)
     
@@ -337,7 +337,7 @@ def generate_gradcam_samples(model_path, test_dir, save_dir, num_samples=20, lay
             ishape = model.inputs[0].shape
             target_size = (int(ishape[1]), int(ishape[2]))
         except Exception:
-            target_size = (224, 224)
+            target_size = (256, 256)
 
     test_generator = test_datagen.flow_from_directory(
         test_dir,

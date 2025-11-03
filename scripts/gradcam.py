@@ -220,7 +220,7 @@ class GradCAM:
         return overlay
 
 
-def preprocess_image(img_path, target_size=(224, 224)):
+def preprocess_image(img_path, target_size=(256, 256)):
     """Load and preprocess image for model prediction"""
     img = load_img(img_path, target_size=target_size)
     img_array = img_to_array(img)
@@ -249,7 +249,7 @@ def _infer_target_size_from_model(model):
             return (int(shp[1]), int(shp[2]))
     except Exception:
         pass
-    return (224, 224)
+    return (256, 256)
 
 
 def generate_gradcam_for_sample(model_path, img_path, save_path, layer_name=None, target_size=None):
@@ -301,7 +301,7 @@ def generate_gradcam_for_sample(model_path, img_path, save_path, layer_name=None
     return heatmap, overlaid
 
 
-def generate_gradcam_samples(model_path, test_dir, save_dir, num_samples=20, target_size=(224, 224), layer_name=None):
+def generate_gradcam_samples(model_path, test_dir, save_dir, num_samples=20, target_size=(256, 256), layer_name=None):
     """
     Generate Grad-CAM visualizations for multiple test samples
     
@@ -432,7 +432,7 @@ def main():
 
     # Detect model input size
     model = keras.models.load_model(MODEL_PATH)
-    target_size = (224, 224)
+    target_size = (256, 256)
     try:
         in_shape = model.input_shape
         if isinstance(in_shape, tuple) and len(in_shape) == 4 and in_shape[1] and in_shape[2]:

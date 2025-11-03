@@ -111,11 +111,14 @@ class GradCAM:
         grad_model = keras.Model(inputs=self.model.input,
                                  outputs=[target_layer.output, self.model.output])
         
+        # Store input spec for later use
+        self.model_input_spec = self.model.input
+        
         return grad_model
     
     def make_gradcam_heatmap(self, img_array, pred_index=None):
         """
-        Generate Grad-CAM heatmap
+        Generate Grad-CAM heatmap (v3 - simplified approach)
         
         Args:
             img_array: Preprocessed image array
@@ -124,80 +127,65 @@ class GradCAM:
         Returns:
             Heatmap as numpy array
         """
-        # Version 2.0: Robust input handling
-        print("[GradCAM v2.0] Using robust input handling with 5 fallback methods")
-        # Handle named input layers
-        # Check for named inputs - if detected, use dictionary format
-        input_name = None
-        if hasattr(self.model, 'input_names') and self.model.input_names:
-            input_name = self.model.input_names[0]
-        elif isinstance(self.model.inputs, list) and len(self.model.inputs) > 0:
-            try:
-                if hasattr(self.model.inputs[0], 'name') and self.model.inputs[0].name:
-                    input_name = self.model.inputs[0].name
-            except:
-                pass
+        print("[GradCAM v3.0] Simplified approach for Functional models")
         
-        # Use dictionary format if input_name found
-        if input_name:
-            model_input = {input_name: img_array}
-        else:
-            # Try 'input_layer_1' first (based on error message), fallback to tensor
-            try:
-                test_model_input = {"input_layer_1": img_array}
-                _ = self.model.predict(test_model_input, verbose=0)
-                model_input = test_model_input
-            except:
-                # Fall back to tensor format for models without named inputs
-                model_input = img_array
+        # Convert to tensor if not already
+        if not isinstance(img_array, tf.Tensor):
+            img_array = tf.constant(img_array)
         
-        # Get predictions
-        preds = self.model.predict(model_input, verbose=0)
+        # Get model prediction first to determine the class
+        # The model expects a specific input format - let's detect it
+        try:
+            # Try with the expected named input first
+            preds = self.model.predict({'input_layer_1': img_array}, verbose=0)
+            use_dict_input = True
+            input_key = 'input_layer_1'
+        except:
+            try:
+                # Try with raw tensor
+                preds = self.model.predict(img_array, verbose=0)
+                use_dict_input = False
+                input_key = None
+            except:
+                # Last resort - try to find the actual input name
+                if hasattr(self.model, 'input_names') and self.model.input_names:
+                    input_key = self.model.input_names[0]
+                    preds = self.model.predict({input_key: img_array}, verbose=0)
+                    use_dict_input = True
+                else:
+                    raise ValueError("Could not determine model input format")
         
         if pred_index is None:
             pred_index = np.argmax(preds[0])
         
-        # Compute gradients (be robust to named/unnamed inputs)
+        # Now compute gradients using the same input format
         with tf.GradientTape() as tape:
-            # Extract raw value if dict
-            raw_value = next(iter(model_input.values())) if isinstance(model_input, dict) else model_input
+            # Prepare input for grad_model
+            if use_dict_input:
+                # The grad_model was built with self.model.input, 
+                # so it should accept the same format as the model
+                inputs = {input_key: img_array}
+            else:
+                inputs = img_array
             
-            # Try multiple input formats
-            conv_outputs = None
-            predictions = None
-            
-            # Attempt 1: Use as-is
+            # Call grad_model - it returns [conv_outputs, predictions]
             try:
-                conv_outputs, predictions = self.grad_model(model_input, training=False)
-            except:
-                pass
-            
-            # Attempt 2: Try with 'input_layer_1' key
-            if conv_outputs is None:
-                try:
-                    conv_outputs, predictions = self.grad_model({'input_layer_1': raw_value}, training=False)
-                except:
-                    pass
-            
-            # Attempt 3: Try raw tensor
-            if conv_outputs is None:
-                try:
-                    conv_outputs, predictions = self.grad_model(raw_value, training=False)
-                except:
-                    pass
-            
-            # Attempt 4: Convert to tf.constant and try with dict
-            if conv_outputs is None:
-                try:
-                    tensor_value = tf.constant(raw_value)
-                    conv_outputs, predictions = self.grad_model({'input_layer_1': tensor_value}, training=False)
-                except:
-                    pass
-            
-            # Attempt 5: Last resort - just the tf.constant
-            if conv_outputs is None:
-                tensor_value = tf.constant(raw_value)
-                conv_outputs, predictions = self.grad_model(tensor_value, training=False)
+                outputs = self.grad_model(inputs, training=False)
+                conv_outputs, predictions = outputs[0], outputs[1]
+            except Exception as e:
+                # If that fails, try creating a new input tensor that matches the model's expectation
+                print(f"[GradCAM] First attempt failed: {e}")
+                # Create a proper input tensor that matches the model's input spec
+                if hasattr(self, 'model_input_spec'):
+                    # Try to match the input spec exactly
+                    if isinstance(self.model_input_spec, list):
+                        inputs = [img_array]
+                    else:
+                        inputs = img_array
+                    outputs = self.grad_model(inputs, training=False)
+                    conv_outputs, predictions = outputs[0], outputs[1]
+                else:
+                    raise e
             
             loss = predictions[:, pred_index]
         

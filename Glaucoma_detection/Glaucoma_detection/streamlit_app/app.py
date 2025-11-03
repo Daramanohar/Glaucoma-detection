@@ -164,6 +164,22 @@ def main():
         
         st.markdown("---")
         
+        # RAG status
+        try:
+            _ = retrieve_for_prediction(prediction_prob=0.5, top_k=1)
+            st.success("🟢  RAG Ready")
+        except Exception as e:
+            st.warning("⚠️  RAG NOT ready")
+            st.caption(str(e))
+
+        # Groq status
+        if check_groq():
+            st.success("🟢  Groq + Llama-3 Ready")
+        else:
+            st.warning("⚠️  Groq API Key missing")
+
+        st.markdown("---")
+
         # Dataset info (if available)
         data_summary_path = BASE_DIR / "processed_data" / "data_summary.json"
         if data_summary_path.exists():

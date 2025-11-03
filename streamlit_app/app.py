@@ -21,9 +21,13 @@ except ImportError:
 
 # Add parent directory to path to import scripts
 sys.path.append(str(Path(__file__).parent.parent))
-# Also add repo root to path (two levels up) for shared scripts
+# Also add repo root to path (two and three levels up) for shared scripts
 try:
     sys.path.append(str(Path(__file__).resolve().parents[2]))
+except Exception:
+    pass
+try:
+    sys.path.append(str(Path(__file__).resolve().parents[3]))
 except Exception:
     pass
 

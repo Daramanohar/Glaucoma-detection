@@ -337,14 +337,14 @@ def main():
         if cm_path.exists():
             st.markdown("---")
             st.subheader("Confusion Matrix")
-            st.image(str(cm_path), use_container_width=True)
+            st.image(str(cm_path), width='stretch')
         
         # Display ROC curve if available
         roc_path = RESULTS_DIR / "roc_auc.png"
         if roc_path.exists():
             st.markdown("---")
             st.subheader("ROC Curve")
-            st.image(str(roc_path), use_container_width=True)
+            st.image(str(roc_path), width='stretch')
     else:
         st.info("Run evaluation script to see metrics here")
     

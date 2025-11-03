@@ -106,6 +106,7 @@ class GradCAM:
                         continue
         
         # Build gradient model
+        # Use model.input which handles both named and unnamed inputs
         grad_model = keras.Model(inputs=self.model.input,
                                  outputs=[target_layer.output, self.model.output])
         

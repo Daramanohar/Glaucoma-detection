@@ -84,16 +84,30 @@ def predict_image(model, image):
 def display_gradcam(model, image, temp_path):
     """Generate and display Grad-CAM visualization"""
     try:
+        # Validate image
+        if image is None:
+            st.error("Error: No image provided.")
+            return None, None
+        
+        # Ensure image is PIL Image
+        if not hasattr(image, 'resize'):
+            st.error("Error: Invalid image format.")
+            return None, None
+        
         # Resize image to model input size
         img_resized = image.resize(MODEL_INPUT_SIZE)
         
         # Convert to numpy array and preprocess
-        img_array = np.array(img_resized) / 255.0
+        img_array = np.array(img_resized, dtype=np.float32) / 255.0
         img_array = np.expand_dims(img_array, axis=0)
         
-        # Ensure image data is valid (not all zeros)
+        # Ensure image data is valid (not all zeros and has correct shape)
         if np.all(img_array == 0):
             st.error("Error: Image data is invalid (all zeros). Please upload a valid image.")
+            return None, None
+        
+        if img_array.shape != (1, MODEL_INPUT_SIZE[0], MODEL_INPUT_SIZE[1], 3):
+            st.error(f"Error: Image shape mismatch. Expected (1, {MODEL_INPUT_SIZE[0]}, {MODEL_INPUT_SIZE[1]}, 3), got {img_array.shape}")
             return None, None
         
         # Create GradCAM instance

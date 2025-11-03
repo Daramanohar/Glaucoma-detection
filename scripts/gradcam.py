@@ -187,7 +187,21 @@ class GradCAM:
                 tape.watch(list(model_input.values())[0])
             else:
                 tape.watch(img_array)
-            conv_outputs, predictions = self._gradcam_fn(model_input)
+            try:
+                conv_outputs, predictions = self._gradcam_fn(model_input)
+            except Exception:
+                # Retry with named mapping if functional model expects it
+                try:
+                    input_name = self.grad_model.input_names[0]
+                    if isinstance(model_input, dict):
+                        value = list(model_input.values())[0]
+                    else:
+                        value = model_input
+                    conv_outputs, predictions = self._gradcam_fn({input_name: value})
+                except Exception:
+                    # Final fallback to raw tensor
+                    value = list(model_input.values())[0] if isinstance(model_input, dict) else model_input
+                    conv_outputs, predictions = self._gradcam_fn(value)
             loss = predictions[:, pred_index]
 
         grads = tape.gradient(loss, conv_outputs)

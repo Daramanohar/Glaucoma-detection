@@ -250,25 +250,45 @@ def main():
         
         # Display prediction results
         if 'probability' in st.session_state:
+            # Display prediction results as before
             st.markdown("---")
             st.subheader("📊 Prediction Results")
-            
+
             prob = st.session_state['probability']
-            
+
             # Prediction label
             label = "⚠️ **Glaucoma Detected**" if prob > 0.5 else "✅ **Normal**"
             color = "red" if prob > 0.5 else "green"
-            
+
             st.markdown(f'<h3 style="color: {color};">{label}</h3>', unsafe_allow_html=True)
-            
+
             # Probability bar
             st.progress(prob if prob > 0.5 else (1 - prob))
             st.write(f"**Confidence**: {prob:.1%}" if prob > 0.5 else f"**Confidence**: {(1-prob):.1%}")
-            
+
             # Probability breakdown
             st.write(f"- **Glaucoma Probability**: {prob:.4f}")
             st.write(f"- **Normal Probability**: {1-prob:.4f}")
-    
+
+            # RAG Retrieval
+            try:
+                rag_results = retrieve_for_prediction(prediction_prob=prob, top_k=5)
+                st.session_state['rag_results'] = rag_results
+
+                # Groq Description Generation
+                description = generate_description(
+                    prediction_prob=prob,
+                    rag_context=rag_results,
+                    gradcam_keywords=["optic disc", "cup-to-disc ratio", "rim thinning"]
+                )
+                st.session_state['description'] = description
+            except Exception as e:
+                st.warning(str(e))
+
+            # Display Detailed Information
+            st.subheader("Detailed Patient Information")
+            st.write(st.session_state.get('description', 'No description available'))
+
     with col2:
         st.subheader("🎨 Visualization")
         

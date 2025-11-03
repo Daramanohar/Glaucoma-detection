@@ -122,15 +122,22 @@ class GradCAM:
         Returns:
             Heatmap as numpy array
         """
+        # Handle named input layers
+        if hasattr(self.model, 'input_names') and self.model.input_names:
+            input_name = self.model.input_names[0]
+            model_input = {input_name: img_array}
+        else:
+            model_input = img_array
+        
         # Get predictions
-        preds = self.model.predict(img_array, verbose=0)
+        preds = self.model.predict(model_input, verbose=0)
         
         if pred_index is None:
             pred_index = np.argmax(preds[0])
         
         # Compute gradients
         with tf.GradientTape() as tape:
-            conv_outputs, predictions = self.grad_model(img_array)
+            conv_outputs, predictions = self.grad_model(model_input, training=False)
             loss = predictions[:, pred_index]
         
         # Get gradients

@@ -54,14 +54,28 @@ def load_model():
 MODEL_INPUT_SIZE = (256, 256)
 
 
+def get_model_input_dict(model, img_array):
+    """Get the correct input format for the model (handles named inputs)"""
+    if hasattr(model, 'input_names') and model.input_names:
+        # Model has named inputs - use dictionary
+        input_name = model.input_names[0]
+        return {input_name: img_array}
+    else:
+        # Model accepts tensor directly
+        return img_array
+
+
 def predict_image(model, image):
     """Predict glaucoma probability for an image"""
     # Preprocess
     img_array = np.array(image.resize(MODEL_INPUT_SIZE)) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
     
+    # Get correct input format
+    model_input = get_model_input_dict(model, img_array)
+    
     # Predict
-    prediction = model.predict(img_array, verbose=0)
+    prediction = model.predict(model_input, verbose=0)
     probability = float(prediction[0][0])
     
     return probability

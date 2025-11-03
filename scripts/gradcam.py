@@ -169,14 +169,25 @@ class GradCAM:
         except Exception:
             pass
 
+        # Handle named input layers
+        if hasattr(self.model, 'input_names') and self.model.input_names:
+            input_name = self.model.input_names[0]
+            model_input = {input_name: img_array}
+        else:
+            model_input = img_array
+        
         # Predict class if not given
-        preds = self.model.predict(img_array, verbose=0)
+        preds = self.model.predict(model_input, verbose=0)
         if pred_index is None:
             pred_index = int(np.argmax(preds[0]))
 
         with tf.GradientTape() as tape:
-            tape.watch(img_array)
-            conv_outputs, predictions = self._gradcam_fn(img_array)
+            if isinstance(model_input, dict):
+                # For dict inputs, watch the tensor value
+                tape.watch(list(model_input.values())[0])
+            else:
+                tape.watch(img_array)
+            conv_outputs, predictions = self._gradcam_fn(model_input)
             loss = predictions[:, pred_index]
 
         grads = tape.gradient(loss, conv_outputs)

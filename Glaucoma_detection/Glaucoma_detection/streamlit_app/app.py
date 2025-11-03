@@ -216,7 +216,7 @@ def main():
         if uploaded_file is not None:
             # Display uploaded image
             image = Image.open(uploaded_file).convert('RGB')
-            st.image(image, caption="Uploaded Image", use_container_width=True)
+            st.image(image, caption="Uploaded Image", width='stretch')
             
             # Prediction button
             if st.button("🔍 Predict", type="primary"):
@@ -278,7 +278,7 @@ def main():
                         tab1, tab2, tab3 = st.tabs(["Original", "Heatmap", "Overlay"])
                         
                         with tab1:
-                            st.image(st.session_state['image'], use_container_width=True)
+                            st.image(st.session_state['image'], width='stretch')
                         
                         with tab2:
                             import matplotlib.pyplot as plt
@@ -290,9 +290,9 @@ def main():
                         
                         with tab3:
                             if cv2 is not None:
-                                st.image(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB), use_container_width=True)
+                                st.image(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB), width='stretch')
                             else:
-                                st.image(overlaid, use_container_width=True)
+                                st.image(overlaid, width='stretch')
                 
                 # Download button
                 st.download_button(

@@ -70,14 +70,22 @@ def predict_image(model, image):
 def display_gradcam(model, image, temp_path):
     """Generate and display Grad-CAM visualization"""
     try:
-        # Save image temporarily
-        image.save(temp_path)
+        # Resize image to model input size
+        img_resized = image.resize(MODEL_INPUT_SIZE)
+        
+        # Convert to numpy array and preprocess
+        img_array = np.array(img_resized) / 255.0
+        img_array = np.expand_dims(img_array, axis=0)
+        
+        # Ensure image data is valid (not all zeros)
+        if np.all(img_array == 0):
+            st.error("Error: Image data is invalid (all zeros). Please upload a valid image.")
+            return None, None
         
         # Create GradCAM instance
         gradcam = GradCAM(model)
         
         # Generate visualization
-        img_array, _ = preprocess_image(str(temp_path), target_size=MODEL_INPUT_SIZE)
         heatmap = gradcam.make_gradcam_heatmap(img_array)
         
         # Overlay
@@ -87,6 +95,8 @@ def display_gradcam(model, image, temp_path):
         return heatmap, overlaid
     except Exception as e:
         st.error(f"Error generating Grad-CAM: {e}")
+        import traceback
+        st.error(f"Traceback: {traceback.format_exc()}")
         return None, None
 
 
@@ -251,7 +261,10 @@ def main():
                             st.pyplot(fig)
                         
                         with tab3:
-                            st.image(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB), use_container_width=True)
+                            if cv2 is not None:
+                                st.image(cv2.cvtColor(overlaid, cv2.COLOR_BGR2RGB), use_container_width=True)
+                            else:
+                                st.image(overlaid, use_container_width=True)
                 
                 # Download button
                 st.download_button(

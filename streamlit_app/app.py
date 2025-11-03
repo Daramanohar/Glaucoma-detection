@@ -11,6 +11,7 @@ from PIL import Image
 from pathlib import Path
 import sys
 import os
+import importlib
 
 # Try to import OpenCV, set to None if not available (e.g., in cloud environments)
 try:
@@ -30,19 +31,23 @@ from scripts.gradcam import GradCAM, preprocess_image, generate_gradcam_for_samp
 
 # Robust imports for Groq and RAG modules
 try:
-    from scripts.groq_interface import check_groq, generate_description
-except ModuleNotFoundError:
-    # Fallback: if running from nested app, try absolute import via repo root
-    from groq_interface import check_groq, generate_description
+    GI = importlib.import_module('scripts.groq_interface')
+except Exception:
+    GI = importlib.import_module('groq_interface')
+
+check_groq = GI.check_groq
+generate_description = GI.generate_description
 
 try:
-    from scripts.rag_retrieval import retrieve_for_prediction
-except ModuleNotFoundError:
-    from rag_retrieval import retrieve_for_prediction
+    RR = importlib.import_module('scripts.rag_retrieval')
+except Exception:
+    RR = importlib.import_module('rag_retrieval')
+
+retrieve_for_prediction = RR.retrieve_for_prediction
 
 # Page configuration
 st.set_page_config(
-    page_title="Glaucoma Detection System v6",  # Version marker to force refresh
+    page_title="Glaucoma Detection System v7",  # Version marker to force refresh
     page_icon="👁️",
     layout="wide",
     initial_sidebar_state="expanded"
